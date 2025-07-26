@@ -4,14 +4,14 @@
 <img src="https://img.shields.io/badge/platforms-iOS%20%7C%20Android-lightgrey" alt="Platforms Badge" />
 <img src="https://img.shields.io/badge/filtro-cinza🖤-black" alt="Filtro Cinza" />
 
-Um laboratório mobile para testar desempenho de filtros de imagem em escala de cinza — implementados em **Dart**, **C**, **Rust**, **Kotlin/Native** e **Swift**.  
+Um laboratório mobile para testar desempenho de filtros de imagem em escala de cinza — implementados em **Dart**, **C**, **Rust**, **Kotlin** e **Swift**.  
 Totalmente construído em **Flutter** com foco em benchmarking entre linguagens nativas e multiplataforma.
 
 ---
 
 ## 🧪 O que esse app faz?
 
-- Aplica um filtro **grayscale** (tons de cinza) em imagens locais.
+- Aplica um filtro **grayscale** (tons de cinza) em imagens tiradas pela camera.
 - Permite comparar a performance de implementações em:
   - 🐦 Dart (puro)
   - 🦀 Rust (via FFI)
@@ -32,7 +32,12 @@ Totalmente construído em **Flutter** com foco em benchmarking entre linguagens 
 | Filtro #3        | Rust (via FFI) |
 | Filtro #4        | Kotlin Native  |
 | Filtro #5        | Swift          |
-| Benchmark        | `Stopwatch` (Dart) |
+
+---
+
+## 💾 Armazenamento Local
+
+Este projeto usa o [ObjectBox](https://pub.dev/packages/objectbox) como banco de dados local para armazenar os resultados dos filtros aplicados (tempo, linguagem usada, etc).
 
 ---
 
