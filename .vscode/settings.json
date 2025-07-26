@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "native_filter.h": "c",
+        "stdint.h": "c"
+    }
+}
