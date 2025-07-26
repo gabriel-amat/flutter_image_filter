@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_filter/core/setup_dependencies.dart';
 import 'package:flutter_image_filter/core/utils/enum/language_enum.dart';
 import 'package:flutter_image_filter/domain/entities/filter_result_entity.dart';
+import 'package:flutter_image_filter/presentation/controllers/leaderboard_controller.dart';
+import 'package:flutter_image_filter/presentation/widgets/image_widget.dart';
 import 'package:flutter_image_filter/service/pick_image_service.dart';
 import 'package:image/image.dart' as img;
-import 'package:uuid/uuid.dart';
 
 class SwiftFilterPage extends StatefulWidget {
   const SwiftFilterPage({super.key});
@@ -14,6 +16,7 @@ class SwiftFilterPage extends StatefulWidget {
 }
 
 class _SwiftFilterPageState extends State<SwiftFilterPage> {
+  final controller = locator.get<LeaderboardController>();
   static const platform = MethodChannel('com.example.image_filter/native');
 
   Uint8List? _originalImageBytes;
@@ -74,6 +77,7 @@ class _SwiftFilterPageState extends State<SwiftFilterPage> {
         processingTimeMs: result['processingTime'] as int,
         language: LanguageEnum.swift.name,
       );
+      controller.addExecution(data: filterResult!);
       _loading = false;
       setState(() {});
     } on PlatformException catch (e) {
@@ -126,10 +130,7 @@ class _SwiftFilterPageState extends State<SwiftFilterPage> {
               ),
 
               if (_originalImageBytes != null) ...[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.memory(_originalImageBytes!, height: 200),
-                ),
+                ImageWidget(imageBytesAsList: _originalImageBytes!),
                 SizedBox(
                   width: double.maxFinite,
                   child: ElevatedButton(
@@ -142,10 +143,7 @@ class _SwiftFilterPageState extends State<SwiftFilterPage> {
               ],
 
               if (filterResult != null && !_loading)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.memory(filterResult!.imageBytes, height: 200),
-                ),
+                ImageWidget(imageBytesAsList: filterResult!.imageBytes),
 
               if (_loading) CircularProgressIndicator(),
 

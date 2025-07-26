@@ -1,14 +1,14 @@
-import 'package:flutter_image_filter/domain/entities/filter_result_entity.dart';
+import 'package:flutter_image_filter/data/models/filter_result_model.dart';
 import 'package:flutter_image_filter/objectbox.g.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 class LocalDataBaseObjectBox {
   final Store store;
-  final Box<FilterResultEntity> filterExecutionBox;
+  final Box<FilterResultModel> filterExecutionBox;
 
   LocalDataBaseObjectBox._create(this.store)
-    : filterExecutionBox = store.box<FilterResultEntity>();
+    : filterExecutionBox = store.box<FilterResultModel>();
 
   static Future<LocalDataBaseObjectBox> create() async {
     final docsDir = await getApplicationDocumentsDirectory();

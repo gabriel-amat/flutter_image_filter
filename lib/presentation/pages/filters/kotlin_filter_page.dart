@@ -1,8 +1,10 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_filter/core/setup_dependencies.dart';
 import 'package:flutter_image_filter/core/utils/enum/language_enum.dart';
 import 'package:flutter_image_filter/domain/entities/filter_result_entity.dart';
-import 'package:uuid/uuid.dart';
+import 'package:flutter_image_filter/presentation/controllers/leaderboard_controller.dart';
+import 'package:flutter_image_filter/presentation/widgets/image_widget.dart';
 
 import '../../../service/pick_image_service.dart';
 
@@ -14,6 +16,7 @@ class KotlinFilterPage extends StatefulWidget {
 }
 
 class _KotlinFilterPageState extends State<KotlinFilterPage> {
+  final controller = locator.get<LeaderboardController>();
   static const platform = MethodChannel('flutter/image_filter');
   Uint8List? _originalImageBytes;
   FilterResultEntity? filterResult;
@@ -44,7 +47,7 @@ class _KotlinFilterPageState extends State<KotlinFilterPage> {
         processingTimeMs: result['processingTimeMs'],
         language: LanguageEnum.kotlin.name,
       );
-
+      controller.addExecution(data: filterResult!);
       loading = false;
       setState(() {});
     } on PlatformException catch (e) {
@@ -76,10 +79,7 @@ class _KotlinFilterPageState extends State<KotlinFilterPage> {
                 ),
               ),
               if (_originalImageBytes != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.memory(_originalImageBytes!, height: 250),
-                ),
+                ImageWidget(imageBytesAsList: _originalImageBytes!),
 
               if (_originalImageBytes != null)
                 SizedBox(
@@ -95,13 +95,7 @@ class _KotlinFilterPageState extends State<KotlinFilterPage> {
               if (filterResult != null)
                 loading
                     ? CircularProgressIndicator.adaptive()
-                    : ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.memory(
-                        filterResult!.imageBytes,
-                        height: 250,
-                      ),
-                    ),
+                    : ImageWidget(imageBytesAsList: filterResult!.imageBytes),
               if (filterResult != null)
                 Text(
                   'Tempo de processamento em Kotlin: ${filterResult!.processingTimeMs}ms',

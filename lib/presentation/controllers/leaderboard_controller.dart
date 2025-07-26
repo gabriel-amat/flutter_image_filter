@@ -21,8 +21,8 @@ class LeaderboardController extends Cubit<LeaderboardState> {
     }
   }
 
-  Future<void> addExecution(FilterResultEntity execution) async {
-    saveExecution(execution);
+  void addExecution({required FilterResultEntity data}) {
+    saveExecution(data);
     load();
   }
 }

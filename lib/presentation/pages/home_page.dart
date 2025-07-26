@@ -98,6 +98,7 @@ class _HomePageState extends State<HomePage> {
                     child: Text("Em Swift"),
                   ),
                 ),
+              Divider(),
               ResultWidget(),
             ],
           ),

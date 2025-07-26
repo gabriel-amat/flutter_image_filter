@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter_image_filter/domain/entities/filter_result_entity.dart';
 import 'package:objectbox/objectbox.dart';
 
@@ -7,7 +5,7 @@ import 'package:objectbox/objectbox.dart';
 class FilterResultModel {
   int id;
   String language;
-  Uint8List imageBytes;
+  List<int> imageBytes;
   int processingTimeMs;
   DateTime timestamp;
 

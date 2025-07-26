@@ -1,9 +1,7 @@
-import 'dart:typed_data';
-
 class FilterResultEntity {
   int id;
   String language;
-  Uint8List imageBytes;
+  List<int> imageBytes;
   int processingTimeMs;
   DateTime timestamp;
 

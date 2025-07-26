@@ -2,10 +2,12 @@ import 'dart:ui' as ui;
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_filter/core/setup_dependencies.dart';
 import 'package:flutter_image_filter/core/utils/enum/language_enum.dart';
 import 'package:flutter_image_filter/domain/entities/filter_result_entity.dart';
+import 'package:flutter_image_filter/presentation/controllers/leaderboard_controller.dart';
+import 'package:flutter_image_filter/presentation/widgets/image_widget.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../domain/entities/gray_filter_param.dart';
 
@@ -34,6 +36,7 @@ class DartFilterPage extends StatefulWidget {
 }
 
 class _DartFilterPageState extends State<DartFilterPage> {
+  final controller = locator.get<LeaderboardController>();
   Uint8List? _originalImageBytes;
   FilterResultEntity? filterResult;
   bool _loading = false;
@@ -90,6 +93,7 @@ class _DartFilterPageState extends State<DartFilterPage> {
       processingTimeMs: processingTime,
       timestamp: DateTime.now(),
     );
+    controller.addExecution(data: filterResult!);
     _loading = false;
     setState(() {});
   }
@@ -154,13 +158,7 @@ class _DartFilterPageState extends State<DartFilterPage> {
               if (filterResult != null)
                 _loading
                     ? CircularProgressIndicator.adaptive()
-                    : ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.memory(
-                        filterResult!.imageBytes,
-                        height: 250,
-                      ),
-                    ),
+                    : ImageWidget(imageBytesAsList: filterResult!.imageBytes),
 
               if (filterResult != null)
                 Text(

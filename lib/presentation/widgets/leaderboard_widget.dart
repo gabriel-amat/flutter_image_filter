@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_filter/core/setup_dependencies.dart';
 import 'package:flutter_image_filter/presentation/controllers/leaderboard_controller.dart';
 import 'package:flutter_image_filter/presentation/controllers/leaderboard_state.dart';
-import 'package:flutter_image_filter/presentation/pages/history_page.dart';
+import 'package:flutter_image_filter/presentation/widgets/leader_board_card.dart';
 
 class ResultWidget extends StatefulWidget {
   const ResultWidget({super.key});
@@ -13,11 +13,18 @@ class ResultWidget extends StatefulWidget {
 }
 
 class _ResultWidgetState extends State<ResultWidget> {
+  final controller = locator.get<LeaderboardController>();
+
+  @override
+  void initState() {
+    controller.load();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final controller = locator.get<LeaderboardController>();
-
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 16,
       children: [
         Text("Resultados", style: Theme.of(context).textTheme.titleMedium),
@@ -29,27 +36,12 @@ class _ResultWidgetState extends State<ResultWidget> {
               return const Center(child: CircularProgressIndicator.adaptive());
             } else if (state is LeaderboardLoaded) {
               return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemCount: state.list.length,
                 itemBuilder: (_, i) {
-                  final e = state.list[i];
-                  return Card(
-                    child: ListTile(
-                      title: Text('${e.processingTimeMs}ms'),
-                      subtitle: Text(e.language),
-                      trailing: TextButton(
-                        child: const Text('ver mais'),
-                        onPressed:
-                            () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (_) => HistoryPage(filterName: e.language),
-                              ),
-                            ),
-                      ),
-                    ),
-                  );
+                  return LeaderBoardCard(filter: state.list[i]);
                 },
               );
             } else if (state is LeaderboardError) {

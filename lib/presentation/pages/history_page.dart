@@ -4,16 +4,33 @@ import 'package:flutter_image_filter/core/setup_dependencies.dart';
 import 'package:flutter_image_filter/presentation/controllers/history_controller.dart';
 import 'package:flutter_image_filter/presentation/controllers/history_state.dart';
 
-class HistoryPage extends StatelessWidget {
-  final String filterName;
+class HistoryPage extends StatefulWidget {
+  final String language;
 
-  const HistoryPage({required this.filterName, super.key});
+  const HistoryPage({required this.language, super.key});
+
+  @override
+  State<HistoryPage> createState() => _HistoryPageState();
+}
+
+class _HistoryPageState extends State<HistoryPage> {
+  final controller = locator.get<HistoryController>();
+
+  @override
+  void initState() {
+    controller.load(language: widget.language);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = locator.get<HistoryController>();
     return Scaffold(
-      appBar: AppBar(title: Text('Histórico de $filterName')),
+      appBar: AppBar(
+        title: Text('Histórico de ${widget.language}'),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        foregroundColor: Colors.white,
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: BlocConsumer<HistoryController, HistoryState>(

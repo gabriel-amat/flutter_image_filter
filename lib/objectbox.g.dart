@@ -40,7 +40,7 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(3, 4524813516878528973),
         name: 'imageBytes',
-        type: 23,
+        type: 27,
         flags: 0,
       ),
       obx_int.ModelProperty(
@@ -128,7 +128,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
       objectToFB: (FilterResultModel object, fb.Builder fbb) {
         final languageOffset = fbb.writeString(object.language);
-        final imageBytesOffset = fbb.writeListInt8(object.imageBytes);
+        final imageBytesOffset = fbb.writeListInt64(object.imageBytes);
         fbb.startTable(6);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, languageOffset);
@@ -153,11 +153,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final timestampParam = DateTime.fromMillisecondsSinceEpoch(
           const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
         );
-        final imageBytesParam =
-            const fb.Uint8ListReader(
-                  lazy: false,
-                ).vTableGet(buffer, rootOffset, 8, Uint8List(0))
-                as Uint8List;
+        final imageBytesParam = const fb.ListReader<int>(
+          fb.Int64Reader(),
+          lazy: false,
+        ).vTableGet(buffer, rootOffset, 8, []);
         final processingTimeMsParam = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
@@ -193,7 +192,7 @@ class FilterResultModel_ {
   );
 
   /// See [FilterResultModel.imageBytes].
-  static final imageBytes = obx.QueryByteVectorProperty<FilterResultModel>(
+  static final imageBytes = obx.QueryIntegerVectorProperty<FilterResultModel>(
     _entities[0].properties[2],
   );
 
