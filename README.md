@@ -44,6 +44,7 @@ Este projeto usa o [ObjectBox](https://pub.dev/packages/objectbox) como banco de
 ## 📹 Demonstração em Vídeo
 
 Veja o app em ação aplicando filtros de imagem em diferentes linguagens e comparando desempenho em tempo real:
+
 ![Gif](https://github.com/user-attachments/assets/ab895bf2-cae1-4148-80bb-38433cee9703)
 
 
